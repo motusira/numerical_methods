@@ -80,8 +80,8 @@ double max_error(double a, double b, double *x, double *coeffs, int n,
 double sample_func(double x) { return x * x + 1 - acos(x); }
 
 int main() {
-  double a = -1.0, b = 1.0;
-  int n = 10;
+  double a = -0.6, b = 0.2;
+  int n = 8;
 
   double *x, *y;
   nodes(a, b, n, sample_func, &x, &y);
@@ -91,10 +91,10 @@ int main() {
   check_accuracy(x, y, coeffs, n);
 
   FILE *fout = fopen("graph_data.txt", "w");
-  for (double t = a; t <= b; t += 0.1) {
-    double p_val = newton_eval(t, x, coeffs, n);
-    fprintf(fout, "%f %f %f %f\n", t, sample_func(t), p_val,
-            fabs(sample_func(t) - p_val));
+  for (int i = 0; i < n; i++) {
+    double p_val = newton_eval(x[i], x, coeffs, n);
+    fprintf(fout, "%f %f %f %f\n", x[i], sample_func(x[i]), p_val,
+            fabs(sample_func(x[i]) - p_val));
   }
   fclose(fout);
 
@@ -102,7 +102,7 @@ int main() {
   free(y);
   free(coeffs);
 
-  int max_nodes = 20;
+  int max_nodes = 80;
 
   FILE *ferr = fopen("error_vs_nodes.txt", "w");
   fprintf(ferr, "Nodes MaxError\n");
