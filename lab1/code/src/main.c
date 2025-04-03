@@ -91,10 +91,10 @@ int main() {
   check_accuracy(x, y, coeffs, n);
 
   FILE *fout = fopen("graph_data.txt", "w");
-  for (int i = 0; i < n; i++) {
-    double p_val = newton_eval(x[i], x, coeffs, n);
-    fprintf(fout, "%f %f %f %f\n", x[i], sample_func(x[i]), p_val,
-            fabs(sample_func(x[i]) - p_val));
+  for (double i = a; i <= b + 0.02; i += 0.02) {
+    double p_val = newton_eval(i, x, coeffs, n);
+    fprintf(fout, "%lf %.8lf\n", i,
+            sample_func(i) - p_val);
   }
   fclose(fout);
 
